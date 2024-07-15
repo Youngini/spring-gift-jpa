@@ -118,7 +118,7 @@
   - [x] 정렬 기능 제공 (상품명, 가격 증)
 
 ## 피드백 반영
-- [ ] JwtConfig : JwtTokenProvider 코드를 분리하기 보다는 메서드로 호출하도록 구현
+- [x] JwtConfig : JwtTokenProvider 코드를 분리하기 보다는 메서드로 호출하도록 구현
 - [ ] WebConfig : 실제 사용하는 코드인지 한번 디버깅
 - [ ] MemberController : 설정값 한곳에 모으기
 - [ ] MemberService : 사용자 토큰 사용

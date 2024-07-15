@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.config.JwtConfig;
 import gift.domain.Member;
 import gift.dto.LoginRequest;
 import gift.dto.LoginResponse;
@@ -7,19 +8,16 @@ import gift.dto.MemberRequest;
 import gift.dto.MemberResponse;
 import gift.exception.ErrorMessage;
 import gift.repository.MemberRepository;
-import gift.security.JwtTokenProvider;
 import gift.security.SecurityService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-    private final JwtTokenProvider jwtTokenProvider;
     private final SecurityService securityService;
 
-    public MemberService(MemberRepository memberRepository, JwtTokenProvider jwtTokenProvider, SecurityService securityService) {
+    public MemberService(MemberRepository memberRepository, SecurityService securityService) {
         this.memberRepository = memberRepository;
-        this.jwtTokenProvider = jwtTokenProvider;
         this.securityService = securityService;
 }
 
@@ -39,7 +37,7 @@ public class MemberService {
         Member member = memberRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException(ErrorMessage.EMAIL_NOT_FOUND));
         if (member != null && member.getPassword().equals(loginRequest.getPassword())) {
-            String token = jwtTokenProvider.generateToken(member);
+            String token = JwtConfig.generateToken(member);
             return new LoginResponse(token);
         } else {
             throw new IllegalArgumentException(ErrorMessage.INVALID_LOGIN_CREDENTIALS);
